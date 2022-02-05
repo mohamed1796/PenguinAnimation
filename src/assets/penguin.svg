@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 1125 2436" style="enable-background:new 0 0 1125 2436;background-color: black;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#fff;}
+	.st1{
+		fill:#000;
+		stroke:#000;
+	}
+	.st2{fill:#FFC629;}
+	.st3{fill:#fff;}
+	.iris{fill:#000}
+</style>
+<ellipse class="st3" cx="362.74" cy="1352.23" rx="136.89" ry="179.1"/>
+<ellipse class="iris" cx="381.05" cy="1384.12" rx="61.66" ry="95.5"/>
+<ellipse class="st3" cx="781.52" cy="1352.23" rx="136.89" ry="179.1"/>
+<ellipse class="iris" cx="763.21" cy="1384.12" rx="61.66" ry="95.5"/>
+<path class="st0" d="M563.78,1658.66L563.78,1658.66c309.79,0,560.93,251.14,560.93,560.93v216.94H2.85v-216.94  C2.85,1909.8,253.98,1658.66,563.78,1658.66z"/>
+<path class="st2" d="M615.64,1784.09c-27.93,7.99-57.61,8.01-85.56,0.08c-61.82-17.52-169.26-60.17-173.52-145.61  c-4.01-80.32,216.31-71.87,216.31-71.87h-1.46c0,0,220.31-8.46,216.31,71.87C783.45,1723.87,677.08,1766.51,615.64,1784.09z"/>
+</svg>
