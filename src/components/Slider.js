@@ -15,7 +15,7 @@ import {
 } from 'react-native-gesture-handler';
 import {snapPoint, useVector} from 'react-native-redash';
 
-import Wave, {HEIGHT, MARGIN_HIGHT, Side, WIDTH} from './Wave';
+import Wave, {HEIGHT, MARGIN_HIGHT, MIN_LEDGE, Side, WIDTH} from './Wave';
 import Button from './Button';
 import {SlideProps} from './Slide';
 
@@ -30,12 +30,12 @@ const Slider = gestureHandlerRootHOC(
     const isTransitioningUp = useSharedValue(false);
     const isTransitioningDown = useSharedValue(false);
     const activeSide = useSharedValue(Side.NON);
-    const up = useVector();
-    const down = useVector();
+    const up = useVector(0, WIDTH / 2);
+    const down = useVector(0, WIDTH / 2);
 
     const updateIndex = index => {
       console.log('index', index);
-      if (index !== -1 || index < length - 1) {
+      if (index > 0 && index < length) {
         setIndex(index);
       }
     };
@@ -62,9 +62,10 @@ const Slider = gestureHandlerRootHOC(
       },
       onEnd: ({y, velocityX, velocityY}) => {
         if (activeSide.value === Side.UP) {
-          const snapPoints = [MARGIN_HIGHT, HEIGHT];
+          const snapPoints = [MIN_LEDGE, HEIGHT];
           const dest = snapPoint(y, velocityY, snapPoints);
           isTransitioningUp.value = dest === HEIGHT;
+          up.x.value = withSpring(WIDTH / 2);
           up.y.value = withSpring(
             dest,
             {
@@ -80,9 +81,10 @@ const Slider = gestureHandlerRootHOC(
             },
           );
         } else if (activeSide.value === Side.DOWN) {
-          const snapPoints = [HEIGHT, MARGIN_HIGHT, 0];
+          const snapPoints = [HEIGHT - MIN_LEDGE, 0];
           const dest = snapPoint(y, velocityY, snapPoints);
           isTransitioningDown.value = dest === 0;
+          down.x.value = withSpring(WIDTH / 2);
           down.y.value = withSpring(
             HEIGHT - dest,
             {
@@ -130,8 +132,8 @@ const Slider = gestureHandlerRootHOC(
 
     useEffect(() => {
       // bottom.y.value = withSpring(HEIGHT - MARGIN_WIDTH);
-      up.y.value = withSpring(MARGIN_HIGHT);
-      down.y.value = withSpring(MARGIN_HIGHT);
+      up.y.value = withSpring(MARGIN_HIGHT - MIN_LEDGE);
+      down.y.value = withSpring(MARGIN_HIGHT - MIN_LEDGE);
     }, []);
 
     const upStyle = useAnimatedStyle(() => ({

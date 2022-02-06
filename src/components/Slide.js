@@ -22,7 +22,7 @@ const Slide = ({slide: {picture, color, title, description}}) => {
         <Rect x={0} y={0} width={width} height={height} fill="url(#gradient)" />
       </Svg>
       <View style={styles.container}>
-        <Image source={picture} style={styles.image} />
+        {picture && <Image source={picture} style={styles.image} />}
         <View>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>

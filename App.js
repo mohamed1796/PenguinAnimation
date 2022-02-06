@@ -46,6 +46,8 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const prev = slides[index - 1];
   const next = slides[index + 1];
+
+  console.log('App index:  ', index);
   return (
     <Slider
       key={index}
