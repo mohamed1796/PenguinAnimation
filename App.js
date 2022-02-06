@@ -50,6 +50,7 @@ export default function App() {
     <Slider
       key={index}
       index={index}
+      length={slides.length}
       setIndex={setIndex}
       prev={prev && <Slide slide={prev} />}
       next={next && <Slide slide={next} />}>

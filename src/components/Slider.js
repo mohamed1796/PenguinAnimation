@@ -20,7 +20,7 @@ import Button from './Button';
 import {SlideProps} from './Slide';
 
 const Slider = gestureHandlerRootHOC(
-  ({index, children: current, prev, next, setIndex}) => {
+  ({index, children: current, prev, next, setIndex, length}) => {
     // const zIndex = useSharedValue(0);
     const bottom = useVector();
     const isBelow = useSharedValue(true);
@@ -35,7 +35,9 @@ const Slider = gestureHandlerRootHOC(
 
     const updateIndex = index => {
       console.log('index', index);
-      setIndex(index);
+      if (index !== -1 || index < length - 1) {
+        setIndex(index);
+      }
     };
 
     const onGestureEvent = useAnimatedGestureHandler({
