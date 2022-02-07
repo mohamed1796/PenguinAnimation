@@ -42,20 +42,26 @@ export var Side;
 })(Side || (Side = {}));
 
 const Wave = ({side, position, children, isTransitioning}) => {
+  // spring effect for the curve when gesture released
+  const stepY = useDerivedValue(() => {
+    const R = clamp(position.y.value, MARGIN_HIGHT - MIN_LEDGE, WIDTH / 2); // Radius
+    return withSpring(isTransitioning.value ? 0 : R / 2);
+  });
+
   const animatedProps = useAnimatedProps(() => {
-    const R = clamp(position.y.value, MARGIN_HIGHT - MIN_LEDGE, WIDTH / 4); // Radius
+    const R = clamp(position.y.value, MARGIN_HIGHT - MIN_LEDGE, WIDTH / 2); // Radius
     const WIDE = 0;
-    const stepY = R / 2;
+    // const stepY = R / 2;
     const stepX = Math.max(position.y.value, MARGIN_HIGHT - MIN_LEDGE);
 
     const C = R * 0.55228474983079; // source: https://spencermortensen.com/articles/bezier-circle/
 
     // vector points
     const p1 = vec2(position.x.value - 2 * stepX, position.y.value);
-    const p2 = vec2(p1.x + WIDE + stepX, p1.y + stepY);
-    const p3 = vec2(p2.x + WIDE + stepX, p2.y + stepY);
-    const p4 = vec2(p3.x + WIDE + stepX, p3.y - stepY);
-    const p5 = vec2(p4.x + WIDE + stepX, p4.y - stepY);
+    const p2 = vec2(p1.x + WIDE + stepX, p1.y + stepY.value);
+    const p3 = vec2(p2.x + WIDE + stepX, p2.y + stepY.value);
+    const p4 = vec2(p3.x + WIDE + stepX, p3.y - stepY.value);
+    const p5 = vec2(p4.x + WIDE + stepX, p4.y - stepY.value);
 
     /** control points */
     // point 2
@@ -146,7 +152,7 @@ Wave.propType = {
   side: Side,
   position: propTypes.arrayOf(propTypes.number), // Vector [number]
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.node]),
-  // isTransitioning: Animated.SharedValue
+  isTransitioning: Animated.SharedValue,
 };
 
 export default Wave;

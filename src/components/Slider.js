@@ -68,7 +68,7 @@ const Slider = gestureHandlerRootHOC(
           const snapPoints = [MIN_LEDGE, HEIGHT];
           const dest = snapPoint(y, velocityY, snapPoints);
           isTransitioningUp.value = dest === HEIGHT;
-          // up.x.value = withSpring(WIDTH / 2);
+          up.x.value = withSpring(WIDTH / 2);
           up.y.value = withSpring(
             dest,
             {
@@ -87,14 +87,14 @@ const Slider = gestureHandlerRootHOC(
           const snapPoints = [HEIGHT - MIN_LEDGE, 0];
           const dest = snapPoint(y, velocityY, snapPoints);
           isTransitioningDown.value = dest === 0;
-          // down.x.value = withSpring(WIDTH / 2);
+          down.x.value = withSpring(WIDTH / 2);
           down.y.value = withSpring(
             HEIGHT - dest,
             {
               velocity: velocityY,
               overshootClamping: isTransitioningDown.value,
-              restSpeedThreshold: isTransitioningUp.value ? 100 : 0.01,
-              restDisplacementThreshold: isTransitioningUp.value ? 100 : 0.01,
+              restSpeedThreshold: isTransitioningDown.value ? 100 : 0.01,
+              restDisplacementThreshold: isTransitioningDown.value ? 100 : 0.01,
             },
             () => {
               if (isTransitioningDown.value) {
@@ -106,35 +106,7 @@ const Slider = gestureHandlerRootHOC(
       },
     });
 
-    //   const onGestureEvent = useAnimatedGestureHandler({
-    //     onStart: ({x, y}) => {
-    //       console.log(x);
-    //       console.log(y);
-    //       zIndex.value = 100;
-    //     },
-    //     onActive: ({x, y}) => {
-    //       bottom.x.value = x;
-    //       bottom.y.value = y;
-    //     },
-    //     onEnd: ({velocityX, velocityY, y}) => {
-    //       let snapPoints;
-
-    //       if (isBelow.value) snapPoints = [HEIGHT - MARGIN_WIDTH];
-    //       else snapPoints = [MARGIN_WIDTH];
-
-    //       const dest = snapPoint(y, velocityY, snapPoints);
-
-    //       bottom.y.value = withSpring(HEIGHT - dest, {velocity: velocityY}, () => {
-    //         console.log(bottom);
-
-    //         if (isBelow.value) isBelow.value = false;
-    //         else isBelow.value = true;
-    //       });
-    //     },
-    //   });
-
     useEffect(() => {
-      // bottom.y.value = withSpring(HEIGHT - MARGIN_WIDTH);
       up.y.value = withSpring(MARGIN_HIGHT - MIN_LEDGE);
       down.y.value = withSpring(MARGIN_HIGHT - MIN_LEDGE);
     }, []);
@@ -148,14 +120,20 @@ const Slider = gestureHandlerRootHOC(
           {current}
           {prev && (
             <Animated.View style={[StyleSheet.absoluteFill, upStyle]}>
-              <Wave side={Side.UP} position={up}>
+              <Wave
+                side={Side.UP}
+                position={up}
+                isTransitioning={isTransitioningUp}>
                 {prev}
               </Wave>
             </Animated.View>
           )}
           {next && (
             <Animated.View style={[StyleSheet.absoluteFill]}>
-              <Wave side={Side.DOWN} position={down}>
+              <Wave
+                side={Side.DOWN}
+                position={down}
+                isTransitioning={isTransitioningUp}>
                 {next}
               </Wave>
             </Animated.View>
