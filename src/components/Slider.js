@@ -30,8 +30,12 @@ const Slider = gestureHandlerRootHOC(
     const isTransitioningUp = useSharedValue(false);
     const isTransitioningDown = useSharedValue(false);
     const activeSide = useSharedValue(Side.NON);
-    const up = useVector(0, WIDTH / 2);
-    const down = useVector(0, WIDTH / 2);
+
+    // initial position of the up curve
+    const up = useVector(WIDTH / 2, 0);
+
+    // initial position of the down curve
+    const down = useVector(WIDTH / 2, 0);
 
     const updateIndex = index => {
       console.log('index', index);
@@ -42,7 +46,6 @@ const Slider = gestureHandlerRootHOC(
 
     const onGestureEvent = useAnimatedGestureHandler({
       onStart: ({y}) => {
-        console.log('Y = ', y);
         if (y < WIDTH - MARGIN_HIGHT) {
           activeSide.value = Side.UP;
         } else if (y > MARGIN_HIGHT) {
@@ -65,7 +68,7 @@ const Slider = gestureHandlerRootHOC(
           const snapPoints = [MIN_LEDGE, HEIGHT];
           const dest = snapPoint(y, velocityY, snapPoints);
           isTransitioningUp.value = dest === HEIGHT;
-          up.x.value = withSpring(WIDTH / 2);
+          // up.x.value = withSpring(WIDTH / 2);
           up.y.value = withSpring(
             dest,
             {
@@ -84,7 +87,7 @@ const Slider = gestureHandlerRootHOC(
           const snapPoints = [HEIGHT - MIN_LEDGE, 0];
           const dest = snapPoint(y, velocityY, snapPoints);
           isTransitioningDown.value = dest === 0;
-          down.x.value = withSpring(WIDTH / 2);
+          // down.x.value = withSpring(WIDTH / 2);
           down.y.value = withSpring(
             HEIGHT - dest,
             {

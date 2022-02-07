@@ -46,16 +46,18 @@ const Wave = ({side, position, children, isTransitioning}) => {
     const R = clamp(position.y.value, MARGIN_HIGHT - MIN_LEDGE, WIDTH / 4); // Radius
     const WIDE = 0;
     const stepY = R / 2;
-    const stepX = R;
+    const stepX = Math.max(position.y.value, MARGIN_HIGHT - MIN_LEDGE);
 
     const C = R * 0.55228474983079; // source: https://spencermortensen.com/articles/bezier-circle/
 
-    const p1 = vec2(position.x.value - 2 * stepY, position.y.value);
+    // vector points
+    const p1 = vec2(position.x.value - 2 * stepX, position.y.value);
     const p2 = vec2(p1.x + WIDE + stepX, p1.y + stepY);
     const p3 = vec2(p2.x + WIDE + stepX, p2.y + stepY);
     const p4 = vec2(p3.x + WIDE + stepX, p3.y - stepY);
     const p5 = vec2(p4.x + WIDE + stepX, p4.y - stepY);
 
+    /** control points */
     // point 2
     const c11 = vec2(p1.x + C, p1.y);
     const c12 = vec2(p2.x, p2.y);
